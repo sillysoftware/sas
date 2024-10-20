@@ -26,10 +26,6 @@ along with SAS; see the file LICENCE. If not see
 
 struct pflags {
     bool help {false};
-    bool repl {false};
-    bool assembly {false};
-    bool verbose {false};
-    bool expand {false};
     bool obj {false};
     std::optional<std::string> outfile;
 };
@@ -41,15 +37,6 @@ pflags parse_args(const std::vector<std::string>& argv) {
         if (arg == "--help" || arg == "-h") {
             flags.help = true;
         } 
-        else if (arg == "--repl" || arg == "-R") {
-            flags.repl = true;
-        } 
-        else if (arg == "-S") {
-            flags.assembly = true;
-        }
-        else if (arg == "-E") {
-            flags.expand = true;
-        }
         else if (arg == "-c") {
             flags.obj = true;
         }
@@ -80,11 +67,9 @@ int main(int argc, char *argv[]) {
         std::string help = "Usage: scc [options] file...\n\n";
         help += "Options:\n";
         help += "  -h, --help\tPrints out the help and exit.\n";
-        help += "  -R, --repl\tEnables the REPL.\n";
         help += "  -o <file>\tPlace the output into <file>.\n";
-        help += "  -S\t\tCompile only; do not assemble or link.\n";
-        help += "  -E\t\tPreproccess only; do not compile, assemble or link.\n";
-        help += "  -c\t\tCompile and assemble, but do not link.\n";
+        help += "  -f <format>\tSet the object format.\n";
+        help += "    elf64\t(ELF64) Unix format.\n";
         help += "\nIf any bugs are found during use of this software report them to:\n<https://github.com/sillysoftware/scc/issues>";
         std::cout << help << std::endl;
         exit(0);
