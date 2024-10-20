@@ -13,4 +13,4 @@ file(GLOB SOURCE_FILES
     sas/*.c*
 )
 
-add_executable(scc ${SOURCE_FILES})
+add_executable(sas ${SOURCE_FILES})
