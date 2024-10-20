@@ -26,8 +26,9 @@ along with SAS; see the file LICENCE. If not see
 
 struct pflags {
     bool help {false};
-    bool obj {false};
+    bool version {false};
     std::optional<std::string> outfile;
+    std::optional<std::string> format;
 };
 
 pflags parse_args(const std::vector<std::string>& argv) {
@@ -37,8 +38,17 @@ pflags parse_args(const std::vector<std::string>& argv) {
         if (arg == "--help" || arg == "-h") {
             flags.help = true;
         } 
-        else if (arg == "-c") {
-            flags.obj = true;
+        if (arg == "--version" || arg == "-v") {
+            flags.version = true;
+        } 
+        else if (arg == "-f") {
+            if (i + 1 < argv.size()) {
+                flags.format = argv[i + 1];
+                i++;
+            } else {
+                error("missing format after '-f'");
+                return flags;
+            }
         }
         else if (arg == "-o") {
             if (i + 1 < argv.size()) {
@@ -67,11 +77,15 @@ int main(int argc, char *argv[]) {
         std::string help = "Usage: scc [options] file...\n\n";
         help += "Options:\n";
         help += "  -h, --help\tPrints out the help and exit.\n";
+        help += "  -v, --version\tPrints out the version number and exit.\n";
         help += "  -o <file>\tPlace the output into <file>.\n";
         help += "  -f <format>\tSet the object format.\n";
         help += "    elf64\t(ELF64) Unix format.\n";
         help += "\nIf any bugs are found during use of this software report them to:\n<https://github.com/sillysoftware/scc/issues>";
         std::cout << help << std::endl;
         exit(0);
+    }
+    if (flags.version) {
+        /* embed versions file and print */
     }
 }
